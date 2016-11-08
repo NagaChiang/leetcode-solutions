@@ -1,6 +1,6 @@
 ﻿#include <vector>
 
-// Note: It's tricky to use big array instead of map.
+// Note: It's tricky to use a big array instead of a map.
 
 class Solution
 {
