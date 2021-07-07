@@ -45,7 +45,7 @@ public:
 			}
 		}
 
-		// Stack is stiil not empty
+		// Stack is still not empty
 		if(!stackChar.empty())
 		{
 			return false;
