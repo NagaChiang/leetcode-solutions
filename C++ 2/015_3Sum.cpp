@@ -44,3 +44,35 @@ public:
         return triplets;
     }
 };
+
+// Slow
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        set<vector<int>> tripletSet;
+        unordered_set<int> targetNumSet;
+        for (int i = 0; i < nums.size(); i++) {
+            if (targetNumSet.find(nums[i]) != targetNumSet.end()) {
+                continue;
+            }
+            
+            targetNumSet.insert(nums[i]);
+            
+            int target = -nums[i];
+            unordered_set<int> numSet; 
+            for (int j = i + 1; j < nums.size(); j++) {
+                if (numSet.find(target - nums[j]) != numSet.end()) {
+                    vector<int> tri = {nums[i], nums[j], target - nums[j]};
+                    sort(tri.begin(), tri.end());
+                    tripletSet.insert(tri);
+                }
+                
+                numSet.insert(nums[j]);
+            }
+        }
+        
+        vector<vector<int>> triplets(tripletSet.begin(), tripletSet.end());
+        
+        return triplets;
+    }
+};
