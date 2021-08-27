@@ -1,24 +1,18 @@
 // Trie
+struct TrieNode {
+    TrieNode* children[26];
+    bool isEnd;
+
+    TrieNode() {
+        memset(children, 0, sizeof(children));
+        isEnd = false;
+    }
+};
+
 class WordDictionary {
 private:
-    struct TrieNode {
-        TrieNode* children[26];
-        bool isEndOfWord;
-        
-        TrieNode() {
-            for (TrieNode*& child : children) {
-                child = nullptr;
-            }
-            
-            isEndOfWord = false;
-        }
-    };
-    
-    typedef struct TrieNode TrieNode;
-    
-private:
-    TrieNode* root;
-    
+    TrieNode* root = nullptr;
+
 public:
     WordDictionary() {
         root = new TrieNode();
@@ -31,40 +25,40 @@ public:
             if (node->children[index] == nullptr) {
                 node->children[index] = new TrieNode();
             }
-            
+
             node = node->children[index];
         }
-        
-        node->isEndOfWord = true;
+
+        node->isEnd = true;
     }
     
     bool search(string word) {
-        return searchFromNode(root, word.c_str());
+        return search(word, root);
     }
-    
+
 private:
-    bool searchFromNode(TrieNode* node, const char* word) {
-        if (word[0] == '\0') {
-            return node->isEndOfWord;
-        }
-        
-        if (word[0] == '.') {
-            for (TrieNode* n : node->children) {
-                if (n != nullptr && searchFromNode(n, word + 1)) {
-                    return true;
+    bool search(string word, TrieNode* node) {
+        for (int i = 0; i < word.size(); i++) {
+            char c = word[i];
+            if (c == '.') {
+                for (TrieNode* child : node->children) {
+                    if (child != nullptr && search(word.substr(i + 1, word.size()), child)) {
+                        return true;
+                    }
                 }
+
+                return false;
             }
-            
-            return false;
-        } else {
-            int index = word[0] - 'a';
+
+            int index = c - 'a';
             if (node->children[index] != nullptr) {
                 node = node->children[index];
-                return searchFromNode(node, word + 1);
             } else {
                 return false;
             }
         }
+
+        return node->isEnd;
     }
 };
 
