@@ -1,18 +1,16 @@
+struct TrieNode {
+    TrieNode* children[26];
+    bool isEnd;
+    
+    TrieNode() {
+        memset(children, 0, sizeof(children));
+        isEnd = false;
+    }
+};
+
 class Trie {
 private:
-    struct TrieNode {
-        TrieNode* children[26];
-        bool isEnd;
-        
-        TrieNode() {
-            memset(children, 0, sizeof(children));
-            isEnd = false;
-        }
-    };
-    
-    typedef struct TrieNode TrieNode;
-    
-    TrieNode* root;
+    TrieNode* root = nullptr;
     
 public:
     Trie() {
