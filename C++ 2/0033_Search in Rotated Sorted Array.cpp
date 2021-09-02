@@ -4,24 +4,26 @@ public:
         int left = 0;
         int right = nums.size() - 1;
         while (left <= right) {
-            const int middle = (left + right) / 2;
-            if (target < nums[middle]) {
-                if (nums[middle] > nums[right] && target < nums[left]) {
-                    left = middle + 1;
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] < target) {
+                if (nums[left] > nums[mid] && target > nums[right]) {
+                    right = mid - 1;
                 } else {
-                    right = middle - 1;
-                }
-            } else if (target > nums[middle]) {
-                if (nums[middle] < nums[left] && target > nums[right]) {
-                    right = middle - 1;
-                } else {
-                    left = middle + 1;
+                    left = mid + 1;
                 }
             } else {
-                return middle;
+                if (nums[mid] > nums[right] && target < nums[left]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
             }
         }
-        
+
         return -1;
     }
 };
