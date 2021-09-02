@@ -1,3 +1,22 @@
+// Greedy, easier to understand
+// Always find smaller numbers to maximize the possible sequence length
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> sequence;
+        for (int n : nums) {
+            auto itr = lower_bound(sequence.begin(), sequence.end(), n);
+            if (itr == sequence.end()) {
+                sequence.push_back(n);
+            } else {
+                sequence[itr - sequence.begin()] = n;
+            }
+        }
+
+        return sequence.size();
+    }
+};
+
 // Greedy
 class Solution {
 public:
