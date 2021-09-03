@@ -22,3 +22,32 @@ private:
         findKthMin(node->right, k, minArray);
     }
 };
+
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        return getKthNode(root, k)->val;
+    }
+
+private:
+    TreeNode* getKthNode(TreeNode* node, int& k) {
+        if (node == nullptr) {
+            return nullptr;
+        }
+
+        TreeNode* leftResult = getKthNode(node->left, k);
+        if (leftResult != nullptr) {
+            return leftResult;
+        }
+
+        if (k == 1) {
+            return node;
+        }
+
+        k--;
+
+        TreeNode* rightResult = getKthNode(node->right, k);
+
+        return rightResult;
+    }
+};
