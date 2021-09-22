@@ -1,3 +1,48 @@
+// Quickselect, O(n)
+class Solution {
+public:
+  int findKthLargest(vector<int>& nums, int k) {
+    srand(time(0));
+
+    int kth = INT_MIN;
+    int low = 0;
+    int high = nums.size() - 1;
+    while (low <= high) {
+      int pivot = partition(nums, low, high);
+      if (pivot == k - 1) {
+        kth = nums[pivot];
+        break;
+      }
+
+      if (pivot > k - 1) {
+        high = pivot - 1;
+      } else {
+        low = pivot + 1;
+      }
+    }
+
+    return kth;
+  }
+
+  int partition(vector<int>& nums, int low, int high) {
+    int pivot = low + (rand() % (high - low + 1));
+    swap(nums[pivot], nums[high]);
+
+    int i = low;
+    for (int j = low; j < high; j++) {
+      if (nums[j] >= nums[high]) {
+        swap(nums[i], nums[j]);
+        i++;
+      }
+    }
+
+    swap(nums[i], nums[high]);
+
+    return i;
+  }
+};
+
+// Heapsort, O(nlogn)
 class Heap {
 private:
   vector<int> array;
