@@ -1,40 +1,42 @@
 class Solution {
 public:
-    string minWindow(string s, string t) {
-        vector<int> charCounts(256, 0);
-        for (int i = 0; i < t.size(); i++) {
-            charCounts[t[i]]++;
+  string minWindow(string s, string t) {
+    static const int charSize = 256;
+    int charNeedCounts[charSize] = {0};
+    for (char c : t) {
+      charNeedCounts[c]++;
+    }
+
+    int remainCount = t.size();
+    int minStart = 0;
+    int minEnd = INT_MAX;
+    int start = 0;
+    for (int end = 0; end < s.size(); end++) {
+      if (charNeedCounts[s[end]] > 0) {
+        remainCount--;
+      }
+
+      charNeedCounts[s[end]]--;
+
+      while (remainCount == 0) {
+        if (end - start < minEnd - minStart) {
+          minStart = start;
+          minEnd = end;
         }
 
-        int remainCount = t.size();
-        int minStart = 0;
-        int minEnd = -1;
-        int start = 0;
-        int end = start;
-        while (end < s.size()) {
-            if (charCounts[s[end]] > 0) {
-                remainCount--;
-            }
-            
-            charCounts[s[end]]--;
-            
-            while (remainCount == 0) {
-                if (minEnd < 0 || end - start < minEnd - minStart) {
-                    minStart = start;
-                    minEnd = end;
-                }
-                
-                if (charCounts[s[start]] == 0) {
-                    remainCount++;
-                }
-                
-                charCounts[s[start]]++;
-                start++;
-            }
-            
-             end++;
+        if (charNeedCounts[s[start]] == 0) {
+          remainCount++;
         }
-                       
-        return minEnd >= 0 ? s.substr(minStart, minEnd - minStart + 1) : "";
+
+        charNeedCounts[s[start]]++;
+        start++;
+      }
     }
+
+    if (minEnd == INT_MAX) {
+      return "";
+    }
+
+    return s.substr(minStart, minEnd - minStart + 1);
+  }
 };
