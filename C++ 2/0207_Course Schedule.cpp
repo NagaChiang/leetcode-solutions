@@ -1,3 +1,48 @@
+// New
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    // 0: unvisited
+    // 1: visiting
+    // 2: visited
+    vector<int> statuses(numCourses);
+
+    vector<vector<int>> preArrays(numCourses);
+    for (const auto& pre : prerequisites) {
+        preArrays[pre[0]].push_back(pre[1]);
+    }
+
+    for (int i = 0; i < numCourses; i++) {
+            if (!canFinish(i, preArrays, statuses)) {
+            return false;
+        }
+    }
+
+        return true;   
+    }
+
+    bool canFinish(int course, vector<vector<int>>& preArrays, vector<int>& statuses) {
+    if (statuses[course] == 1) {
+        return false;
+    }
+
+    if (statuses[course] == 2) {
+        return true;
+    }
+
+    statuses[course] = 1; // Visiting
+    for (int pre : preArrays[course]) {
+            if (!canFinish(pre, preArrays, statuses)) {
+            return false;
+        }
+    }
+
+        statuses[course] = 2; // Visited 
+
+        return true;
+    }
+};
+
 // DFS
 enum class NodeStatus : char {
     unvisited,
